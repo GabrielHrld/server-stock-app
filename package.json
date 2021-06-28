@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Servidor de la prueba para Origin Software.",
+  "main": "config.js",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "keywords": [],
+  "author": "Gabriel Rodriguez <g.federico.rodriguez@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "nanoid": "^3.1.23",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}
