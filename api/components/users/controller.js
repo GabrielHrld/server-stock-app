@@ -1,6 +1,8 @@
 const { nanoid } = require("nanoid");
 const TABLE = "users";
+const auth = require("../auth");
 
+//controlador de usuarios
 module.exports = (injectedStore) => {
   let store = injectedStore;
 
@@ -12,18 +14,34 @@ module.exports = (injectedStore) => {
     return users;
   };
 
-  const create = async (data) => {
-    const user = {
-      id: nanoid(),
-      username: data.username,
-      name: data.name,
-      lastname: data.lastname,
-    };
+  const insert = async (data) => {
+    try {
+      const user = {
+        id: nanoid(25),
+        username: data.username,
+        name: data.name,
+        lastname: data.lastname,
+      };
 
-    return store.insert(TABLE, data);
+      await auth.insert({
+        id: user.id,
+        username: user.username,
+        password: data.password,
+      });
+
+      return await store.insert(TABLE, user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const remove = async (id) => {
     return await store.remove(TABLE, id);
+  };
+
+  return {
+    list,
+    insert,
+    remove,
   };
 };

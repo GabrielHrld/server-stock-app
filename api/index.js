@@ -2,7 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 require("dotenv").config();
 const chalk = require("chalk");
-const user = require("./components/users");
+const user = require("./components/users/network");
 
 const errors = require("../utils/errors");
 
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(helmet());
 
 //ROUTER
-app.use("/api/user", user);
+app.use("/api/users", user);
 // app.use("/api/auth", auth);
 app.use(errors);
 

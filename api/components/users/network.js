@@ -36,3 +36,5 @@ const remove = async (req, res) => {
 router.get("/", list);
 router.post("/", insert);
 router.delete("/:id", remove);
+
+module.exports = router;
