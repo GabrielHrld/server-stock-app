@@ -15,10 +15,20 @@ const list = async (req, res) => {
   }
 };
 
+const getOne = async (req, res) => {
+  try {
+    const user = await controller.getOneUser(req.params.id);
+    response.error(req, res, user, 200);
+  } catch (error) {
+    response.error(req, res, error.message, 401);
+  }
+};
+
 const insert = async (req, res) => {
   try {
     await controller.insert(req.body);
     const { username, name, lastname } = req.body;
+    //devolvemos los datos del usuario creado
     response.success(req, res, { username, name, lastname }, 201);
   } catch (error) {
     response.error(req, res, error.message, 400);
@@ -36,6 +46,7 @@ const remove = async (req, res) => {
 
 //ROUTES
 router.get("/", list);
+router.get("/:id", getOne);
 router.post("/", insert);
 router.delete("/:id", secure("owner"), remove);
 

@@ -19,6 +19,15 @@ module.exports = (injectedStore) => {
     }
   };
 
+  const getOneUser = async (userId) => {
+    try {
+      let user = await store.getOne(TABLE, userId);
+      return { ...user[0] };
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   //Insertar un usuario nuevo
   const insert = async (data) => {
     try {
@@ -58,5 +67,6 @@ module.exports = (injectedStore) => {
     list,
     insert,
     remove,
+    getOneUser,
   };
 };

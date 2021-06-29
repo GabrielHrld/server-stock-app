@@ -45,6 +45,28 @@ const list = (table) => {
   });
 };
 
+const getOne = (table, where, where2, userId) => {
+  let sentence = "";
+  let query = where;
+  if (table == "users_stocks") {
+    query = [where, where2, userId];
+    sentence = `SELECT * FROM ${table} WHERE symbol=? AND currency=? AND user=?`;
+  } else {
+    sentence = `SELECT * FROM ${table} WHERE id=?`;
+  }
+
+  //retornamos una promesa para manejar los errores asíncronos
+  return new Promise((resolve, reject) => {
+    connection.query(sentence, query, (error, data) => {
+      if (error) {
+        return reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
 //función para insertar
 const insert = (table, data) => {
   return new Promise((resolve, reject) => {
@@ -87,14 +109,14 @@ const query = (table, q, join) => {
       q,
       (error, res) => {
         if (error) return reject(error);
-        //res[0] porque devuelve un array en lugar de un objeto
-        resolve(res[0] || null);
+        resolve(res || null);
       }
     );
   });
 };
 module.exports = {
   list,
+  getOne,
   insert,
   remove,
   query,

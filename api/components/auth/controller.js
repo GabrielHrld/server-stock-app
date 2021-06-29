@@ -11,9 +11,9 @@ module.exports = (injectedStore) => {
 
   const login = async (username, pass) => {
     const data = await store.query(TABLE, { username });
-    const areEquals = await bcrypt.compare(pass, data.password);
+    const areEquals = await bcrypt.compare(pass, data[0].password);
     console.log(areEquals);
-    const { password, ...rest } = data;
+    const { password, ...rest } = data[0];
     if (areEquals == true) return jwt.sign({ ...rest });
     if (areEquals !== true) throw new Error("Información inválidaa");
   };

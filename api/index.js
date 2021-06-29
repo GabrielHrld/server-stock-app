@@ -3,6 +3,7 @@ const helmet = require("helmet");
 require("dotenv").config();
 const chalk = require("chalk");
 const user = require("./components/users/network");
+const stocks = require("./components/users_stocks/network");
 const auth = require("./components/auth/network");
 const errors = require("../utils/errors");
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(helmet());
 
 //ROUTER
+app.use("/api/users/stocks", stocks);
 app.use("/api/users", user);
 app.use("/api/auth", auth);
 app.use(errors);

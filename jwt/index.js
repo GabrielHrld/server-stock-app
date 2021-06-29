@@ -51,4 +51,5 @@ const decodeHeader = (req) => {
 module.exports = {
   sign,
   check,
+  decodeHeader,
 };
