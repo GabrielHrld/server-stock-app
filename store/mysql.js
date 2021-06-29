@@ -48,10 +48,14 @@ const list = (table) => {
 //función para insertar
 const insert = (table, data) => {
   return new Promise((resolve, reject) => {
-    connection.query(`INSERT INTO ${table} SET ?`, [data], (error, data) => {
-      if (error) return reject(error);
-      resolve(data);
-    });
+    connection.query(
+      `INSERT INTO ${table} SET ?`,
+      [data],
+      (error, response) => {
+        if (error) return reject(error);
+        resolve(response);
+      }
+    );
   });
 };
 
@@ -68,8 +72,30 @@ const remove = (table, id) => {
   });
 };
 
+// función de consultas
+const query = (table, q, join) => {
+  let joinQuery = "";
+  if (join) {
+    const key = Object.keys(join)[0];
+    const val = join[key];
+    joinQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`;
+  }
+
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM ${table} ${joinQuery} WHERE ${table}.?`,
+      q,
+      (error, res) => {
+        if (error) return reject(error);
+        //res[0] porque devuelve un array en lugar de un objeto
+        resolve(res[0] || null);
+      }
+    );
+  });
+};
 module.exports = {
   list,
   insert,
   remove,
+  query,
 };

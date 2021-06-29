@@ -19,7 +19,7 @@ const check = {
     const decoded = decodeHeader(req);
 
     if (decoded.id !== owner) {
-      throw error("No podes hacer esto", 401);
+      throw new Error("No podes hacer esto");
     }
   },
 };
