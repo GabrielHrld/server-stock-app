@@ -3,7 +3,7 @@ const helmet = require("helmet");
 require("dotenv").config();
 const chalk = require("chalk");
 const user = require("./components/users/network");
-
+const auth = require("./components/auth/network");
 const errors = require("../utils/errors");
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(helmet());
 
 //ROUTER
 app.use("/api/users", user);
-// app.use("/api/auth", auth);
+app.use("/api/auth", auth);
 app.use(errors);
 
 app.listen(PORT, () => {

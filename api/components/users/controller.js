@@ -9,13 +9,20 @@ module.exports = (injectedStore) => {
   //Si no le indicamos una DB utilizamos la falsa
   if (!store) store = require("../../../store/dummy");
 
+  //Traer la lista de usuarios
   const list = async () => {
-    let users = await store.list(TABLE);
-    return users;
+    try {
+      let users = await store.list(TABLE);
+      return users;
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
+  //Insertar un usuario nuevo
   const insert = async (data) => {
     try {
+      //Objeto modelo Usuarios DB
       const user = {
         id: nanoid(25),
         username: data.username,
@@ -23,6 +30,7 @@ module.exports = (injectedStore) => {
         lastname: data.lastname,
       };
 
+      //Llamamos a Auth service para guardar la contraseña
       await auth.insert({
         id: user.id,
         username: user.username,
@@ -31,12 +39,19 @@ module.exports = (injectedStore) => {
 
       return await store.insert(TABLE, user);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 
+  //Eliminar un usuario
   const remove = async (id) => {
-    return await store.remove(TABLE, id);
+    try {
+      await auth.remove(id);
+      await store.remove(TABLE, id);
+      return true;
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   return {
