@@ -1,6 +1,6 @@
 const express = require("express");
 const response = require("../../../utils/response");
-const controller = require("./controller");
+const controller = require("./index");
 
 //AUTH ROUTER
 const router = express.Router();
@@ -9,6 +9,7 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   try {
     const token = await controller.login(req.body.username, req.body.password);
+
     response.success(req, res, token, 200);
   } catch (error) {
     response.error(req, res, "Información inválida", 400);

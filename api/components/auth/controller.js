@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-
+const jwt = require("../../../jwt");
 const TABLE = "auth";
 
 //controlador de autenticación
@@ -9,9 +9,13 @@ module.exports = (injectedStore) => {
     store = require("../../../store/dummy");
   }
 
-  const login = async (username, password) => {
+  const login = async (username, pass) => {
     const data = await store.query(TABLE, { username });
-    console.log(data);
+    const areEquals = await bcrypt.compare(pass, data.password);
+    console.log(areEquals);
+    const { password, ...rest } = data;
+    if (areEquals == true) return jwt.sign({ ...rest });
+    if (areEquals !== true) throw new Error("Información inválidaa");
   };
 
   const insert = async (data) => {
@@ -40,5 +44,6 @@ module.exports = (injectedStore) => {
   return {
     insert,
     remove,
+    login,
   };
 };

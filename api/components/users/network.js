@@ -1,5 +1,6 @@
 const express = require("express");
 const response = require("../../../utils/response");
+const secure = require("./secure");
 const controller = require("./index");
 
 //USERS ROUTER
@@ -36,6 +37,6 @@ const remove = async (req, res) => {
 //ROUTES
 router.get("/", list);
 router.post("/", insert);
-router.delete("/:id", remove);
+router.delete("/:id", secure("owner"), remove);
 
 module.exports = router;
