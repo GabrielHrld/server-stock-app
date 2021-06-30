@@ -7,10 +7,13 @@ const stocks = require("./components/users_stocks/network");
 const auth = require("./components/auth/network");
 const errors = require("../utils/errors");
 
+const cors = require("cors");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 //MIDDLEWARES
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 
