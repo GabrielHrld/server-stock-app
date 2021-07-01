@@ -12,10 +12,14 @@ module.exports = (injectedStore) => {
   const login = async (username, pass) => {
     const data = await store.query(TABLE, { username });
     const areEquals = await bcrypt.compare(pass, data[0].password);
-    console.log(areEquals);
     const { password, ...rest } = data[0];
-    if (areEquals == true) return jwt.sign({ ...rest });
-    if (areEquals !== true) throw new Error("Información inválidaa");
+    if (areEquals == true) {
+      const user = await store.query("users", { username });
+      console.log(user);
+      const token = jwt.sign({ ...rest });
+      return { ...user[0], token };
+    }
+    if (areEquals !== true) throw new Error("Información inválida");
   };
 
   const insert = async (data) => {
