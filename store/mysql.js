@@ -97,12 +97,14 @@ const remove = (table, id) => {
 // función de consultas
 const query = (table, q, join) => {
   let joinQuery = "";
+  //por si necesitamos un join
   if (join) {
     const key = Object.keys(join)[0];
     const val = join[key];
     joinQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`;
   }
 
+  // retorna un array con los resultados
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM ${table} ${joinQuery} WHERE ${table}.?`,

@@ -6,6 +6,7 @@ const controller = require("./index");
 //USERS ROUTER
 const router = express.Router();
 
+//obtener lista de usuarios
 const list = async (req, res) => {
   try {
     const listaDeUsuarios = await controller.list();
@@ -15,6 +16,7 @@ const list = async (req, res) => {
   }
 };
 
+//obtener un usuario
 const getOne = async (req, res) => {
   try {
     const user = await controller.getOneUser(req.params.id);
@@ -24,6 +26,7 @@ const getOne = async (req, res) => {
   }
 };
 
+//insertar un usuario
 const insert = async (req, res) => {
   try {
     await controller.insert(req.body);
@@ -35,6 +38,7 @@ const insert = async (req, res) => {
   }
 };
 
+//remover el usuario
 const remove = async (req, res) => {
   try {
     const deleteResponse = await controller.remove(req.params.id);

@@ -15,6 +15,7 @@ module.exports = (injectedStore) => {
     }
   };
 
+  //retorna las acciones guardadas por el usuario
   const getUserStocks = async (userId) => {
     try {
       return await store.query(TABLE, { user: userId });
@@ -23,6 +24,7 @@ module.exports = (injectedStore) => {
     }
   };
 
+  //inserta una acción a los favoritos de usuario
   const insert = async (data, userId) => {
     //corroboramos que no exista antes de añadirla
     const stock = await getOneStock(data.symbol, data.currency, userId);

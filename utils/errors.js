@@ -1,5 +1,6 @@
 const response = require("./response");
 
+//error handler
 const errors = (error, req, res, next) => {
   console.error("[error]", error);
 
